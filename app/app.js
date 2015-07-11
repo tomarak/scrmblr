@@ -11,38 +11,39 @@ export default class MyApp extends Component {
   }
 
   componentWillMount() {
-    window.addEventListener("keypress", this.handleKeyPress)
+    window.addEventListener("keypress", this.handleKeyPress.bind(this))
   }
   componentWillUnmount() {
-    window.removeEventListener("keypress", this.handleKeyPress);
+    window.removeEventListener("keypress", this.handleKeyPress.bind(this));
   }
 
   componentDidMount() {
     getWord().then((wordObj) =>
       this.setState({
         wordObj: wordObj,
-        scrambled: this.handleScrambleWord(wordObj.word)
+        scrambled: this.scrambleWord(wordObj.word)
       }))
   }
 
   handleKeyPress(event) {
     var keyPressed = String.fromCharCode(event.keyCode).toLowerCase();
-    console.log(keyPressed);
+    this.checkLetter(keyPressed);
   }
 
-  checkWord(char){
-    var word = this.state.wordObj.word;
+  checkLetter(char){
+    var word = this.state.scrambled;
     var index = word.indexOf(char);
-    console.log(index);
+    if(index !== -1){
+      
+    }
   }
 
-  handleScrambleWord (word) {
+  scrambleWord (word) {
     var scrambledWord = word.split('')
     .sort(function(){return 0.5-Math.random()})
     .join('');
     return scrambledWord;
   }
-
 
   render () {
     return (
