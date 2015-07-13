@@ -1,6 +1,7 @@
 import 'whatwg-fetch';
 import React from 'react';
 import Counter from './counter'
+import Score from './score'
 import {getWord} from './api';
 var {Component} = React;
 
@@ -8,7 +9,7 @@ export default class MyApp extends Component {
   /*
   instead of getInitialState, es6 uses the constructor() function
   */
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       wordObj: null,
@@ -29,12 +30,13 @@ export default class MyApp extends Component {
     getWord().then((wordObj) =>
       this.setState({
         wordObj: wordObj,
-        lettersLeft: this.scrambleWord(wordObj.word).split(''),
+        lettersLeft: this.scrambleWord(wordObj.word).split('')
       }))
   }
 
   handleKeyPress(event) {
     var keyPressed = String.fromCharCode(event.keyCode).toLowerCase();
+    console.log(keyPressed);
     this.checkLetter(keyPressed);
   }
 
@@ -48,7 +50,7 @@ export default class MyApp extends Component {
     return scrambledWord;
   }
 
-  checkLetter(char){
+  checkLetter(char) {
     var letters = this.state.lettersLeft;
     var newLetters = this.state.lettersChosen;
     var index = letters.indexOf(char);
@@ -61,15 +63,19 @@ export default class MyApp extends Component {
       })
     }
   }
-  checkWord(){
+
+  checkWord() {
     var guess = this.state.lettersLeft
   }
 
-  render () {
+  render() {
     return (
-      <div >
-      {this.state.lettersChosen.join('') + this.state.lettersLeft.join('')}
-      <Counter />
+      <div id='container'>
+        <span id='word'>
+        {this.state.lettersChosen.join('') + this.state.lettersLeft.join('')}
+        </span>
+        <Counter />
+        <Score />
       </div>
       )
   }

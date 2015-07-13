@@ -18,7 +18,7 @@ export default class Counter extends Component {
     clearInterval(this.timer);
   }
 
-  tick(){
+  tick() {
     if(this.state.count > 0){
       var newCount = --this.state.count;
       this.setState({
@@ -27,11 +27,10 @@ export default class Counter extends Component {
     }
   }
 
-
   render() {
     return (
       <div id="counter">
-      {this.state.count}
+        {this.state.count} <span className="label">left</span>
       </div>
     )
   }
