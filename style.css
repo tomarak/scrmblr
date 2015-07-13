@@ -1,3 +1,7 @@
+body {
+  background-color: #FFFBFE;
+}
+
 #container {
   font-family: Roboto;
   position: fixed;
@@ -9,10 +13,12 @@
 #word {
   font-weight: 100;
   font-size: 10em;
+  color: #474350;
 }
 
 .label {
   font-weight: 700;
+  color: #474350;
 }
 #counter, #score {
   float: left;
@@ -20,4 +26,12 @@
   margin-left: auto;
   margin-right: auto;
   padding-left: 10px;
+}
+
+.success {
+  color: #2FED8B;
+}
+
+.incorrect {
+  color: #F24D4D;
 }

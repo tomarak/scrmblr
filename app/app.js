@@ -13,6 +13,10 @@ export default class MyApp extends Component {
     super(props);
     this.state = {
       wordObj: null,
+      word: '',
+      scrambled: null,
+      score: 0,
+      current: null,
       lettersLeft: [],
       lettersChosen: []
     };
@@ -30,24 +34,28 @@ export default class MyApp extends Component {
     getWord().then((wordObj) =>
       this.setState({
         wordObj: wordObj,
-        lettersLeft: this.scrambleWord(wordObj.word).split('')
-      }))
+        word: wordObj.word
+      })).then(() =>
+      this.scrambleWord())
   }
 
   handleKeyPress(event) {
     var keyPressed = String.fromCharCode(event.keyCode).toLowerCase();
-    console.log(keyPressed);
     this.checkLetter(keyPressed);
   }
 
   /*
   helper functions
   */
-  scrambleWord(word) {
+  scrambleWord() {
+    var word = this.state.word;
     var scrambledWord = word.split('')
     .sort(function(){return 0.5-Math.random()})
     .join('');
-    return scrambledWord;
+    this.setState({
+      scrambled: scrambledWord,
+      lettersLeft: scrambledWord.split('')
+    })
   }
 
   checkLetter(char) {
@@ -65,17 +73,27 @@ export default class MyApp extends Component {
   }
 
   checkWord() {
-    var guess = this.state.lettersLeft
+    var guess = this.state.lettersChosen.join('') + this.state.lettersLeft.join('');
+    if(guess === this.state.word){
+      this.increaseScore();
+    }
+  }
+
+  increaseScore(){
+   var newScore = this.state.score+=10;
+    this.setState({
+      score: newScore
+    })
   }
 
   render() {
     return (
       <div id='container'>
         <span id='word'>
-        {this.state.lettersChosen.join('') + this.state.lettersLeft.join('')}
+        {this.state.current || this.state.scrambled}
         </span>
         <Counter />
-        <Score />
+        <Score score={this.state.score}/>
       </div>
       )
   }
