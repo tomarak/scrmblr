@@ -5,16 +5,16 @@ export default class Score extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      score: this.props.score || 0
+      score: this.props.score
     }
   }
 
-  increaseScore() {
-    var newScore = ++this.state.score;
-    this.setState({
-      score: newScore
-    })
-  }
+  // increaseScore() {
+  //   var newScore = ++this.state.score;
+  //   this.setState({
+  //     score: newScore
+  //   })
+  // }
 
   render() {
     return (

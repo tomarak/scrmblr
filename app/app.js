@@ -31,10 +31,15 @@ export default class MyApp extends Component {
   }
 
   componentDidMount() {
+    this.handleGetWord();
+  }
+
+  handleGetWord(){
     getWord().then((wordObj) =>
       this.setState({
         wordObj: wordObj,
-        word: wordObj.word
+        word: wordObj.word.toLowerCase(),
+        current: null
       })).then(() =>
       this.scrambleWord())
   }
@@ -49,12 +54,14 @@ export default class MyApp extends Component {
   */
   scrambleWord() {
     var word = this.state.word;
+    console.log(word)
     var scrambledWord = word.split('')
     .sort(function(){return 0.5-Math.random()})
     .join('');
     this.setState({
       scrambled: scrambledWord,
-      lettersLeft: scrambledWord.split('')
+      lettersLeft: scrambledWord.split(''),
+      lettersChosen: []
     })
   }
 
@@ -67,20 +74,22 @@ export default class MyApp extends Component {
       newLetters.push(choice);
       this.setState({
         lettersLeft: letters,
-        lettersChosen: newLetters
+        lettersChosen: newLetters,
+        current: newLetters.join('') + letters.join('')
       })
+      this.checkWord();
     }
   }
 
   checkWord() {
-    var guess = this.state.lettersChosen.join('') + this.state.lettersLeft.join('');
-    if(guess === this.state.word){
+    if(this.state.current === this.state.word){
       this.increaseScore();
+      this.handleGetWord();
     }
   }
 
   increaseScore(){
-   var newScore = this.state.score+=10;
+   var newScore = this.state.score += 10;
     this.setState({
       score: newScore
     })
@@ -93,6 +102,7 @@ export default class MyApp extends Component {
         {this.state.current || this.state.scrambled}
         </span>
         <Counter />
+        {this.state.score}
         <Score score={this.state.score}/>
       </div>
       )
