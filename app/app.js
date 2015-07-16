@@ -23,11 +23,11 @@ export default class MyApp extends Component {
   }
 
   componentWillMount() {
-    window.addEventListener("keypress", this.handleKeyPress.bind(this))
+    window.addEventListener("keydown", this.handleKeyPress.bind(this))
   }
 
   componentWillUnmount() {
-    window.removeEventListener("keypress", this.handleKeyPress.bind(this));
+    window.removeEventListener("keydown", this.handleKeyPress.bind(this));
   }
 
   componentDidMount() {
@@ -38,15 +38,20 @@ export default class MyApp extends Component {
     getWord().then((wordObj) =>
       this.setState({
         wordObj: wordObj,
-        word: wordObj.word.toLowerCase(),
-        current: null
+        word: wordObj.word.toLowerCase()
       })).then(() =>
       this.scrambleWord())
   }
 
   handleKeyPress(event) {
-    var keyPressed = String.fromCharCode(event.keyCode).toLowerCase();
-    this.checkLetter(keyPressed);
+    event.preventDefault();
+    if(event.keyCode === 8){
+      this.removeLetter();
+    } else {
+      var keyPressed = String.fromCharCode(event.keyCode).toLowerCase();
+      //console.log(keyPressed);
+      this.checkLetter(keyPressed);  
+    }
   }
 
   /*
@@ -60,17 +65,26 @@ export default class MyApp extends Component {
     .join('');
     this.setState({
       scrambled: scrambledWord,
+      current: null,
       lettersLeft: scrambledWord.split(''),
       lettersChosen: []
     })
   }
 
+  removeLetter() {
+    var letterChosen = this.state.lettersChosen.pop();
+    this.state.lettersLeft.unshift(letterChosen);
+    this.setState(this.state);
+  }
+  /*
+  checks if the key pressed is a letter within the scrambled word, and further, if it is a possible choice left
+  */
   checkLetter(char) {
     var letters = this.state.lettersLeft;
     var newLetters = this.state.lettersChosen;
     var index = letters.indexOf(char);
     if(index !== -1){
-      var choice = letters.splice(index, 1);
+      var choice = letters.splice(index, 1)[0];
       newLetters.push(choice);
       this.setState({
         lettersLeft: letters,
@@ -84,6 +98,7 @@ export default class MyApp extends Component {
   checkWord() {
     if(this.state.current === this.state.word){
       this.increaseScore();
+      //set timeout
       this.handleGetWord();
     }
   }
@@ -98,9 +113,11 @@ export default class MyApp extends Component {
   render() {
     return (
       <div id='container'>
-        <span id='word'>
-        {this.state.current || this.state.scrambled}
-        </span>
+        <div id='word'>
+          <span id="letterChosen">{this.state.lettersChosen.join("")}</span>
+          <span id="lettersLeft">{this.state.lettersLeft.join("")}</span>
+        {/*{this.state.current || this.state.scrambled}*/}
+        </div>
         <Counter />
          <div id='score'>
           {this.state.score} <span className='label'>points</span>
