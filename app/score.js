@@ -9,6 +9,7 @@ export default class Score extends Component {
     }
   }
 
+
   // increaseScore() {
   //   var newScore = ++this.state.score;
   //   this.setState({

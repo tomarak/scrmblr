@@ -88,7 +88,7 @@ export default class MyApp extends Component {
     }
   }
 
-  increaseScore(){
+  increaseScore() {
    var newScore = this.state.score += 10;
     this.setState({
       score: newScore
@@ -102,8 +102,10 @@ export default class MyApp extends Component {
         {this.state.current || this.state.scrambled}
         </span>
         <Counter />
-        {this.state.score}
-        <Score score={this.state.score}/>
+         <div id='score'>
+          {this.state.score} <span className='label'>points</span>
+         </div>
+
       </div>
       )
   }

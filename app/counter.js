@@ -30,7 +30,7 @@ export default class Counter extends Component {
   render() {
     return (
       <div id="counter">
-        {this.state.count} <span className="label">left</span>
+        {this.state.count} <span className="label">seconds left</span>
       </div>
     )
   }
