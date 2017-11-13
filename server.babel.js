@@ -5,7 +5,7 @@ import path from 'path';
 
 const app = express();
 
-const port = 3000;
+let port = process.env.PORT || 3000;
 // app.use('/', Express.static('public'));
 app.use('/', express.static('public'));
 
