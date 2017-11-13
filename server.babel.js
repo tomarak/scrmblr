@@ -15,5 +15,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(port, function() {
-    console.log("Server Started at port 3000");
+    console.log("Server Started at port ", port);
 });
