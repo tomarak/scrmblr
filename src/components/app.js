@@ -48,9 +48,9 @@ export default class MyApp extends Component {
     if(event.keyCode === 8){
       this.removeLetter();
     } else {
-      var keyPressed = String.fromCharCode(event.keyCode).toLowerCase();
+      let keyPressed = String.fromCharCode(event.keyCode).toLowerCase();
       //console.log(keyPressed);
-      this.checkLetter(keyPressed);  
+      this.checkLetter(keyPressed);
     }
   }
 
@@ -58,9 +58,9 @@ export default class MyApp extends Component {
   helper functions
   */
   scrambleWord() {
-    var word = this.state.word;
+    let word = this.state.word;
     console.log(word)
-    var scrambledWord = word.split('')
+    let scrambledWord = word.split('')
     .sort(function(){return 0.5-Math.random()})
     .join('');
     this.setState({
@@ -72,7 +72,7 @@ export default class MyApp extends Component {
   }
 
   removeLetter() {
-    var letterChosen = this.state.lettersChosen.pop();
+    let letterChosen = this.state.lettersChosen.pop();
     this.state.lettersLeft.unshift(letterChosen);
     this.setState(this.state);
   }
@@ -80,11 +80,11 @@ export default class MyApp extends Component {
   checks if the key pressed is a letter within the scrambled word, and further, if it is a possible choice left
   */
   checkLetter(char) {
-    var letters = this.state.lettersLeft;
-    var newLetters = this.state.lettersChosen;
-    var index = letters.indexOf(char);
+    let letters = this.state.lettersLeft;
+    let newLetters = this.state.lettersChosen;
+    let index = letters.indexOf(char);
     if(index !== -1){
-      var choice = letters.splice(index, 1)[0];
+      let choice = letters.splice(index, 1)[0];
       newLetters.push(choice);
       this.setState({
         lettersLeft: letters,
@@ -104,7 +104,7 @@ export default class MyApp extends Component {
   }
 
   increaseScore() {
-   var newScore = this.state.score += 10;
+   let newScore = this.state.score += 10;
     this.setState({
       score: newScore
     })
